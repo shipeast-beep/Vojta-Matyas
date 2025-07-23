@@ -32,6 +32,8 @@
       padding: 40px 30px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .profile-pic-container {
@@ -154,6 +156,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       padding: 8px 10px;
       transition: background 0.3s ease;
+      z-index: 1;
     }
 
     .react-btn:hover {
@@ -181,6 +184,50 @@
       }
     }
 
+    /* Modal interakce */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 40px;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .modal h2 {
+      margin: 0 0 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+    }
+
+    .modal button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
+    }
+
+    .modal button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+    }
+
     /* Responzivní */
     @media (max-width: 600px) {
       .profile {
@@ -201,6 +248,20 @@
       }
 
       .video-btn {
+        font-size: 16px;
+        padding: 12px 24px;
+      }
+
+      .modal {
+        max-width: 90%;
+        padding: 20px 20px;
+      }
+
+      .modal h2 {
+        font-size: 22px;
+      }
+
+      .modal button {
         font-size: 16px;
         padding: 12px 24px;
       }
@@ -238,22 +299,33 @@
     </video>
   </div>
 
+  <!-- Modal interakce -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2>Jsi připraven setkat se s Vojtou?</h2>
+      <button id="startBtn">Ano, pojďme na to!</button>
+    </div>
+  </div>
+
   <script>
     const music = document.getElementById('bg-music');
     const lightbox = document.getElementById('lightbox');
     const mainVideo = document.getElementById('mainVideo');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const startBtn = document.getElementById('startBtn');
     let musicPlaying = false;
 
-    // Hudba se spustí po prvním kliknutí na stránku
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.addEventListener('click', tryPlayMusic, { once: true });
-    });
-
-    function tryPlayMusic() {
-      music.play().then(() => {
+    // Po kliknutí na tlačítko v modalu spustit hudbu, padající emoji a zavřít modal
+    startBtn.addEventListener('click', () => {
+      modalOverlay.style.display = 'none';
+      try {
+        music.play();
         musicPlaying = true;
-      }).catch(() => {});
-    }
+      } catch(e) {
+        // nemusí fungovat, pokud není interakce uživatele
+      }
+      dropEmojis();
+    });
 
     function openLightbox() {
       lightbox.classList.add('active');
