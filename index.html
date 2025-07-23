@@ -4,64 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vojta Matyáš</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
   <style>
+    /* Základní styl */
     body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
       margin: 0;
       padding: 0;
-      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffeefc, #fdf4f8);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Parallax background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      opacity: 0.08;
+      z-index: -1;
     }
 
     .profile {
-      max-width: 600px;
-      margin: 50px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: 80px auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .profile:hover {
+      transform: scale(1.01);
     }
 
     img {
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       object-fit: cover;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       margin-bottom: 20px;
     }
 
     h1 {
-      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      margin: 10px 0;
     }
 
     p {
       font-size: 18px;
-      color: #444;
+      line-height: 1.6;
+      margin: 15px 0;
     }
 
-    video {
+    .video-preview {
       margin-top: 30px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .video-preview video {
       width: 100%;
-      max-width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .video-preview:hover video {
+      transform: scale(1.02);
+    }
+
+    /* Lightbox overlay */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lightbox video {
+      width: 90%;
+      max-width: 700px;
       border-radius: 10px;
     }
 
+    .lightbox.active {
+      display: flex;
+    }
+
     .cta {
-      margin-top: 40px;
-      background: linear-gradient(145deg, #ff69b4, #ff1493);
+      margin-top: 50px;
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
       color: white;
-      padding: 30px 20px;
-      border-radius: 12px;
+      padding: 35px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
     .cta h2 {
       margin-top: 0;
-      font-size: 24px;
+      font-size: 26px;
     }
 
     .cta p {
       font-size: 18px;
-      margin: 15px 0;
     }
 
     .cta a.button {
@@ -70,34 +123,89 @@
       color: #ff1493;
       font-weight: bold;
       text-decoration: none;
-      padding: 12px 24px;
+      padding: 14px 28px;
       border-radius: 30px;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s;
+      font-size: 16px;
+      margin-top: 10px;
     }
 
     .cta a.button:hover {
-      background: #ffe0f0;
+      background: #ffe6f2;
+      transform: scale(1.05);
+    }
+
+    /* Audio player */
+    .audio-player {
+      margin-top: 30px;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    @media (max-width: 600px) {
+      .profile {
+        margin: 30px 10px;
+        padding: 25px 15px;
+      }
+
+      .cta h2 {
+        font-size: 22px;
+      }
+
+      .cta p {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
+
   <div class="profile">
     <img src="IMG_1396.png" alt="Vojta Matyáš">
     <h1>Vojta Matyáš</h1>
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
 
-    <video controls>
-      <source src="video.mp4" type="video/mp4">
-      Tvůj prohlížeč nepodporuje přehrávání videa.
-    </video>
+    <div class="video-preview" onclick="openLightbox()">
+      <video muted autoplay loop playsinline>
+        <source src="video.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="audio-player">
+      <audio controls>
+        <source src="bg-music.mp3" type="audio/mpeg">
+        Tvůj prohlížeč nepodporuje přehrávání hudby.
+      </audio>
+    </div>
 
     <div class="cta">
       <h2>🔥 Vojta tě čeká v soukromí...</h2>
       <p>Navenek andílek, v soukromí ďábel.<br>
-      Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
+         Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
       <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
       <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
     </div>
   </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <video controls autoplay>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <script>
+    function openLightbox() {
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+  </script>
+
 </body>
 </html>
