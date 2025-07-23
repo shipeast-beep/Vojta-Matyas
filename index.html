@@ -31,6 +31,12 @@
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .profile-pic-container {
+      position: relative;
+      display: inline-block;
     }
 
     img {
@@ -54,39 +60,18 @@
       margin: 15px 0;
     }
 
-    .controls {
-      margin: 20px 0;
-    }
-
-    .controls button {
-      padding: 12px 24px;
-      margin: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 30px;
-      background-color: #ff69b4;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .controls button:hover {
-      background-color: #ff1493;
-    }
-
     .cta {
       margin-top: 40px;
       background: linear-gradient(135deg, #ff69b4, #ff1493);
       color: white;
-      padding: 30px 20px;
+      padding: 35px 25px;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
     .cta h2 {
       margin-top: 0;
-      font-size: 24px;
+      font-size: 26px;
     }
 
     .cta p {
@@ -111,6 +96,31 @@
       transform: scale(1.05);
     }
 
+    .video-btn {
+      padding: 16px 32px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+      animation: pulse 2s infinite;
+      transition: transform 0.2s ease;
+      margin-top: 30px;
+    }
+
+    .video-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(255, 105, 180, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+    }
+
     .lightbox {
       display: none;
       position: fixed;
@@ -119,7 +129,6 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      flex-direction: column;
     }
 
     .lightbox video {
@@ -128,19 +137,46 @@
       border-radius: 10px;
     }
 
-    .lightbox button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #ff69b4;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-    }
-
     .lightbox.active {
       display: flex;
+    }
+
+    .react-btn {
+      position: absolute;
+      bottom: 0;
+      right: -10px;
+      transform: translateY(50%);
+      background: #ff69b4;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 8px 10px;
+      transition: background 0.3s ease;
+    }
+
+    .react-btn:hover {
+      background: #ff1493;
+    }
+
+    .emoji-drop {
+      position: fixed;
+      font-size: 32px;
+      animation: drop 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @keyframes drop {
+      0% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.2) rotate(0deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(100vh) scale(0.9) rotate(360deg);
+      }
     }
 
     @media (max-width: 600px) {
@@ -150,24 +186,20 @@
       }
 
       h1 {
-        font-size: 26px;
-      }
-
-      p {
-        font-size: 16px;
+        font-size: 24px;
       }
 
       .cta h2 {
-        font-size: 20px;
+        font-size: 22px;
       }
 
-      .cta p {
-        font-size: 15px;
+      .cta p, p {
+        font-size: 16px;
       }
 
-      .controls button {
-        width: 100%;
-        margin: 8px 0;
+      .video-btn {
+        font-size: 16px;
+        padding: 12px 24px;
       }
     }
   </style>
@@ -175,14 +207,14 @@
 <body>
 
   <div class="profile">
-    <img src="IMG_1396.png" alt="Vojta Matyáš" />
+    <div class="profile-pic-container">
+      <img src="IMG_1396.png" alt="Vojta Matyáš" />
+      <button class="react-btn" onclick="dropEmojis()">🥵</button>
+    </div>
     <h1>Vojta Matyáš</h1>
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
 
-    <div class="controls">
-      <button onclick="playMusic()">▶️ Přehrát hudbu</button>
-      <button onclick="openLightbox()">🎬 Spustit video</button>
-    </div>
+    <button class="video-btn" onclick="openLightbox()">🎬 Spustit tajné video</button>
 
     <div class="cta">
       <h2>🔥 Vojta tě čeká v soukromí...</h2>
@@ -193,27 +225,30 @@
     </div>
   </div>
 
-  <!-- Hudba -->
-  <audio id="bg-music" src="rizz%20song.mp3" loop></audio>
+  <!-- Hudba na pozadí -->
+  <audio id="bg-music" src="rizz song.mp3" loop></audio>
 
-  <!-- Lightbox video -->
-  <div class="lightbox" id="lightbox">
+  <!-- Lightbox s videem -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <video id="mainVideo" controls>
       <source src="video.mp4" type="video/mp4" />
     </video>
-    <button onclick="closeLightbox()">❌ Zavřít video</button>
   </div>
 
   <script>
     const music = document.getElementById('bg-music');
     const lightbox = document.getElementById('lightbox');
     const mainVideo = document.getElementById('mainVideo');
+    let musicPlaying = false;
 
-    function playMusic() {
-      music.play().catch(err => {
-        alert('Pro přehrání hudby je potřeba interakce. Zkuste kliknout znovu.');
-      });
-    }
+    // Spustit hudbu po první interakci
+    window.addEventListener('click', () => {
+      if (!musicPlaying) {
+        music.play().then(() => {
+          musicPlaying = true;
+        }).catch(() => {});
+      }
+    }, { once: true });
 
     function openLightbox() {
       lightbox.classList.add('active');
@@ -225,19 +260,27 @@
     function closeLightbox() {
       lightbox.classList.remove('active');
       mainVideo.pause();
-      music.play();
+      if (musicPlaying) music.play();
     }
 
-    // Když video začne hrát, hudba se pauzne
-    mainVideo.addEventListener('play', () => {
-      music.pause();
-    });
-
-    // Když video pauzne, hudba se znovu spustí
+    mainVideo.addEventListener('play', () => music.pause());
     mainVideo.addEventListener('pause', () => {
-      music.play();
+      if (musicPlaying) music.play();
     });
-  </script>
 
+    // Padající emoji efekt
+    function dropEmojis() {
+      const count = 15;
+      for (let i = 0; i < count; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji-drop';
+        emoji.textContent = '🥵';
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.animationDuration = (0.8 + Math.random()).toFixed(2) + 's';
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 1500);
+      }
+    }
+  </script>
 </body>
 </html>
