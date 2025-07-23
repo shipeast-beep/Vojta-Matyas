@@ -54,49 +54,39 @@
       margin: 15px 0;
     }
 
-    .video-preview {
-      margin-top: 30px;
+    .controls {
+      margin: 20px 0;
+    }
+
+    .controls button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      background-color: #ff69b4;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .video-preview video {
-      width: 100%;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .lightbox video {
-      width: 90%;
-      max-width: 700px;
-      border-radius: 10px;
-    }
-
-    .lightbox.active {
-      display: flex;
+    .controls button:hover {
+      background-color: #ff1493;
     }
 
     .cta {
-      margin-top: 50px;
+      margin-top: 40px;
       background: linear-gradient(135deg, #ff69b4, #ff1493);
       color: white;
-      padding: 35px 25px;
+      padding: 30px 20px;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
     .cta h2 {
       margin-top: 0;
-      font-size: 26px;
+      font-size: 24px;
     }
 
     .cta p {
@@ -121,18 +111,63 @@
       transform: scale(1.05);
     }
 
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    .lightbox video {
+      width: 90%;
+      max-width: 700px;
+      border-radius: 10px;
+    }
+
+    .lightbox button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #ff69b4;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
     @media (max-width: 600px) {
       .profile {
         margin: 30px 10px;
         padding: 25px 15px;
       }
 
+      h1 {
+        font-size: 26px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
       .cta h2 {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       .cta p {
-        font-size: 16px;
+        font-size: 15px;
+      }
+
+      .controls button {
+        width: 100%;
+        margin: 8px 0;
       }
     }
   </style>
@@ -144,10 +179,9 @@
     <h1>Vojta Matyáš</h1>
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
 
-    <div class="video-preview" onclick="openLightbox()">
-      <video muted autoplay loop playsinline>
-        <source src="video.mp4" type="video/mp4" />
-      </video>
+    <div class="controls">
+      <button onclick="playMusic()">▶️ Přehrát hudbu</button>
+      <button onclick="openLightbox()">🎬 Spustit video</button>
     </div>
 
     <div class="cta">
@@ -159,40 +193,51 @@
     </div>
   </div>
 
-  <!-- Skryté audio přehrávání -->
-  <audio id="bg-music" src="rizz%20song.mp3" autoplay loop></audio>
+  <!-- Hudba -->
+  <audio id="bg-music" src="rizz%20song.mp3" loop></audio>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <video id="mainVideo" controls autoplay>
+  <!-- Lightbox video -->
+  <div class="lightbox" id="lightbox">
+    <video id="mainVideo" controls>
       <source src="video.mp4" type="video/mp4" />
     </video>
+    <button onclick="closeLightbox()">❌ Zavřít video</button>
   </div>
 
   <script>
-    const bgMusic = document.getElementById('bg-music');
+    const music = document.getElementById('bg-music');
     const lightbox = document.getElementById('lightbox');
     const mainVideo = document.getElementById('mainVideo');
 
+    function playMusic() {
+      music.play().catch(err => {
+        alert('Pro přehrání hudby je potřeba interakce. Zkuste kliknout znovu.');
+      });
+    }
+
     function openLightbox() {
       lightbox.classList.add('active');
-      bgMusic.pause();
+      mainVideo.currentTime = 0;
       mainVideo.play();
+      music.pause();
     }
 
     function closeLightbox() {
       lightbox.classList.remove('active');
       mainVideo.pause();
-      bgMusic.play();
+      music.play();
     }
 
+    // Když video začne hrát, hudba se pauzne
     mainVideo.addEventListener('play', () => {
-      bgMusic.pause();
+      music.pause();
     });
 
+    // Když video pauzne, hudba se znovu spustí
     mainVideo.addEventListener('pause', () => {
-      bgMusic.play();
+      music.play();
     });
   </script>
+
 </body>
 </html>
