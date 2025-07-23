@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vojta Matyáš</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
   <style>
-    /* Základní styl */
     body {
       margin: 0;
       padding: 0;
@@ -16,7 +15,6 @@
       overflow-x: hidden;
     }
 
-    /* Parallax background */
     body::before {
       content: "";
       position: fixed;
@@ -33,11 +31,6 @@
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-
-    .profile:hover {
-      transform: scale(1.01);
     }
 
     img {
@@ -64,26 +57,19 @@
     .video-preview {
       margin-top: 30px;
       cursor: pointer;
-      position: relative;
     }
 
     .video-preview video {
       width: 100%;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
     }
 
-    .video-preview:hover video {
-      transform: scale(1.02);
-    }
-
-    /* Lightbox overlay */
     .lightbox {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -135,16 +121,6 @@
       transform: scale(1.05);
     }
 
-    /* Audio player */
-    .audio-player {
-      margin-top: 30px;
-    }
-
-    audio {
-      width: 100%;
-      max-width: 600px;
-    }
-
     @media (max-width: 600px) {
       .profile {
         margin: 30px 10px;
@@ -164,48 +140,59 @@
 <body>
 
   <div class="profile">
-    <img src="IMG_1396.png" alt="Vojta Matyáš">
+    <img src="IMG_1396.png" alt="Vojta Matyáš" />
     <h1>Vojta Matyáš</h1>
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
 
     <div class="video-preview" onclick="openLightbox()">
       <video muted autoplay loop playsinline>
-        <source src="video.mp4" type="video/mp4">
+        <source src="video.mp4" type="video/mp4" />
       </video>
-    </div>
-
-    <div class="audio-player">
-      <audio controls>
-        <source src="bg-music.mp3" type="audio/mpeg">
-        Tvůj prohlížeč nepodporuje přehrávání hudby.
-      </audio>
     </div>
 
     <div class="cta">
       <h2>🔥 Vojta tě čeká v soukromí...</h2>
-      <p>Navenek andílek, v soukromí ďábel.<br>
+      <p>Navenek andílek, v soukromí ďábel.<br />
          Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
       <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
       <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
     </div>
   </div>
 
+  <!-- Skryté audio přehrávání -->
+  <audio id="bg-music" src="rizz%20song.mp3" autoplay loop></audio>
+
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <video controls autoplay>
-      <source src="video.mp4" type="video/mp4">
+    <video id="mainVideo" controls autoplay>
+      <source src="video.mp4" type="video/mp4" />
     </video>
   </div>
 
   <script>
+    const bgMusic = document.getElementById('bg-music');
+    const lightbox = document.getElementById('lightbox');
+    const mainVideo = document.getElementById('mainVideo');
+
     function openLightbox() {
-      document.getElementById('lightbox').classList.add('active');
+      lightbox.classList.add('active');
+      bgMusic.pause();
+      mainVideo.play();
     }
 
     function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
+      lightbox.classList.remove('active');
+      mainVideo.pause();
+      bgMusic.play();
     }
-  </script>
 
+    mainVideo.addEventListener('play', () => {
+      bgMusic.pause();
+    });
+
+    mainVideo.addEventListener('pause', () => {
+      bgMusic.play();
+    });
+  </script>
 </body>
 </html>
