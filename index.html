@@ -4,209 +4,204 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vojta Matyáš</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
   <style>
     body {
-      margin: 0; padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #ffeefc, #fdf4f8);
-      color: #333; overflow-x: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
-      opacity: 0.08; z-index: -1;
-    }
-    .profile {
-      max-width: 700px; margin: 80px auto;
-      background: rgba(255,255,255,0.95);
-      border-radius: 20px; padding: 40px 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
       text-align: center;
     }
-    .profile-pic-container {
-      position: relative; display: inline-block;
-      margin-bottom: 20px;
+
+    .profile {
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     img {
-      width: 180px; height: 180px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+      position: relative;
     }
-    .react-btn {
-      position: absolute; bottom: 0; right: -10px;
-      transform: translateY(50%);
-      background: #ff69b4; border: none;
-      border-radius: 50%; font-size: 24px;
-      padding: 8px; cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
-    }
-    .react-btn:hover {
-      background: #ff1493;
-    }
+
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px; margin: 10px 0;
+      margin: 0;
     }
+
     p {
-      font-size: 18px; line-height: 1.6;
-      margin: 15px 0;
-    }
-    .video-btn {
-      padding: 16px 32px; font-size: 18px;
-      border: none; border-radius: 50px;
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
-      color: white; font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255,20,147,0.4);
-      animation: pulse 2s infinite;
-      transition: transform 0.2s ease;
-      margin: 30px 0;
-    }
-    .video-btn:hover { transform: scale(1.05); }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,105,180,0.7); }
-      70% { box-shadow: 0 0 0 20px rgba(255,105,180,0); }
-      100% { box-shadow: 0 0 0 0 rgba(255,105,180,0); }
-    }
-    .cta {
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-      color: white; padding: 35px 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-    .cta h2 {
-      font-size: 26px; margin-top: 0;
-    }
-    .cta p {
       font-size: 18px;
+      color: #444;
     }
-    .cta a.button {
-      display: inline-block;
-      background: white; color: #ff1493;
-      font-weight: bold; text-decoration: none;
-      padding: 14px 28px; border-radius: 30px;
-      transition: background 0.3s ease, transform 0.2s;
-      font-size: 16px; margin-top: 10px;
-    }
-    .cta a.button:hover {
-      background: #ffe6f2; transform: scale(1.05);
-    }
-    .lightbox {
-      display: none; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      justify-content: center; align-items: center;
-      z-index: 1000;
-    }
-    .lightbox.active { display: flex; }
-    .lightbox video {
-      width: 90%; max-width: 700px;
+
+    video {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 100%;
       border-radius: 10px;
     }
+
+    .cta {
+      margin-top: 40px;
+      background: linear-gradient(145deg, #ff69b4, #ff1493);
+      color: white;
+      padding: 30px 20px;
+      border-radius: 12px;
+    }
+
+    .cta h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .cta p {
+      font-size: 18px;
+      margin: 15px 0;
+    }
+
+    .cta a.button {
+      display: inline-block;
+      background: white;
+      color: #ff1493;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+
+    .cta a.button:hover {
+      background: #ffe0f0;
+    }
+
+    /* Tlačítko emoji u profilovky */
+    .profile-pic-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .react-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: #ff1493;
+      border: none;
+      border-radius: 50%;
+      font-size: 28px;
+      color: white;
+      padding: 6px 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255,20,147,0.7);
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    .react-btn:hover {
+      background: #ff69b4;
+    }
+
+    /* Padající emoji */
     .emoji-drop {
-      position: fixed; font-size: 32px;
+      position: fixed;
+      font-size: 32px;
       animation: drop 1s ease-out forwards;
-      pointer-events: none; z-index: 9999;
+      pointer-events: none;
+      z-index: 9999;
     }
     @keyframes drop {
       0% { opacity: 0; transform: translateY(-100px) rotate(0deg); }
       100% { opacity: 1; transform: translateY(100vh) rotate(360deg); }
     }
-    @media (max-width: 600px) {
-      .profile { margin: 30px 10px; padding: 25px 15px; }
-      h1 { font-size: 24px; }
-      .video-btn { font-size: 16px; padding: 12px 24px; }
-      .cta h2 { font-size: 22px; }
-      p, .cta p { font-size: 16px; }
-    }
+
+    /* Overlay pro start */
     #introOverlay {
-      position: fixed; top:0; left:0;
-      width: 100%; height: 100%;
-      background: rgba(255,255,255,0.97);
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.98);
       z-index: 2000;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; text-align: center;
-      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      font-family: Arial, sans-serif;
       padding: 20px;
     }
-    #introOverlay h2 { font-size: 26px; margin-bottom: 20px; }
-    #introOverlay button {
-      padding: 16px 32px; font-size: 18px;
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
-      color: white; border: none; border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(255,20,147,0.3);
-      cursor: pointer;
+    #introOverlay h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #ff1493;
     }
+    #introOverlay button {
+      background: linear-gradient(145deg, #ff69b4, #ff1493);
+      border: none;
+      color: white;
+      font-size: 20px;
+      padding: 15px 35px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255,20,147,0.5);
+      transition: background 0.3s ease;
+    }
+    #introOverlay button:hover {
+      background: linear-gradient(145deg, #ff1493, #ff69b4);
+    }
+
   </style>
 </head>
 <body>
   <div id="introOverlay">
-    <h2>💘 Připraven na setkání s Vojtou?</h2>
-    <button onclick="startExperience()">Vstoupit do světa Vojty</button>
+    <h2>Jsi připraven setkat se s Vojtou?</h2>
+    <button id="startBtn">Ano, chci poznat Vojtu</button>
   </div>
 
   <div class="profile">
     <div class="profile-pic-container">
       <img src="IMG_1396.png" alt="Vojta Matyáš" />
-      <button class="react-btn" onclick="dropEmojis()">🥵</button>
+      <button class="react-btn" id="emojiBtn">🥵</button>
     </div>
     <h1>Vojta Matyáš</h1>
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
-    <button class="video-btn" onclick="openLightbox()">🎬 Spustit tajné video</button>
+
+    <video controls id="mainVideo" >
+      <source src="video.mp4" type="video/mp4" />
+      Tvůj prohlížeč nepodporuje přehrávání videa.
+    </video>
+
     <div class="cta">
       <h2>🔥 Vojta tě čeká v soukromí...</h2>
-      <p>Navenek andílek, v soukromí ďábel.<br>Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
+      <p>Navenek andílek, v soukromí ďábel.<br>
+      Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
       <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
-      <a class="button" href="#">Připoj se k mému klubu</a>
+      <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
     </div>
   </div>
 
   <audio id="bg-music" src="rizz song.mp3" loop></audio>
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <video id="mainVideo" controls>
-      <source src="video.mp4" type="video/mp4" />
-    </video>
-  </div>
 
   <script>
     const music = document.getElementById('bg-music');
-    const intro = document.getElementById('introOverlay');
-    const lightbox = document.getElementById('lightbox');
-    const mainVideo = document.getElementById('mainVideo');
-    let musicPlaying = false;
+    const introOverlay = document.getElementById('introOverlay');
+    const startBtn = document.getElementById('startBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+    const video = document.getElementById('mainVideo');
 
-    function startExperience() {
-      music.play().then(() => {
-        musicPlaying = true;
-        intro.style.display = 'none';
-      }).catch(() => {
-        alert('Hudba se nespustí – zkus jiný prohlížeč.');
+    // Spuštění hudby a skrytí overlay při startu
+    startBtn.addEventListener('click', () => {
+      music.play().catch(() => {
+        alert('Hudba se nespustila, zkus to znovu nebo jiný prohlížeč.');
       });
-    }
-
-    function openLightbox() {
-      lightbox.classList.add('active');
-      mainVideo.currentTime = 0;
-      mainVideo.play();
-      music.pause();
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      mainVideo.pause();
-      if (musicPlaying) music.play();
-    }
-
-    mainVideo.addEventListener('play', () => music.pause());
-    mainVideo.addEventListener('pause', () => {
-      if (musicPlaying) music.play();
+      introOverlay.style.display = 'none';
     });
 
+    // Emoji efekt padajících emoji
     function dropEmojis() {
       for (let i = 0; i < 15; i++) {
         const emoji = document.createElement('div');
@@ -217,6 +212,19 @@
         setTimeout(() => emoji.remove(), 1500);
       }
     }
+
+    emojiBtn.addEventListener('click', dropEmojis);
+
+    // Pauza hudby při přehrávání videa, pokračování po pauze
+    video.addEventListener('play', () => {
+      music.pause();
+    });
+    video.addEventListener('pause', () => {
+      music.play();
+    });
+    video.addEventListener('ended', () => {
+      music.play();
+    });
   </script>
 </body>
 </html>
