@@ -6,6 +6,9 @@
   <title>Vojta Matyáš</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       padding: 0;
@@ -163,6 +166,7 @@
       background: #ff1493;
     }
 
+    /* Emoji padani */
     .emoji-drop {
       position: fixed;
       font-size: 32px;
@@ -183,6 +187,7 @@
       }
     }
 
+    /* Modal interakce */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -226,51 +231,78 @@
       background: linear-gradient(135deg, #ff69b4, #ff1493);
     }
 
-    .anon-form {
-      margin-top: 50px;
-      padding: 30px 20px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    /* Anonymní zpráva - formulář */
+    #anonForm {
       max-width: 600px;
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 60px auto 100px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
       text-align: center;
-      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
     }
 
-    .anon-form textarea {
+    #anonForm h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+      margin-bottom: 20px;
+    }
+
+    #anonForm textarea {
       width: 100%;
       height: 120px;
-      padding: 15px;
-      font-size: 16px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
       resize: vertical;
-      margin-top: 10px;
-      box-sizing: border-box;
-      max-width: 100%;
-    }
-
-    .anon-form button {
-      margin-top: 15px;
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      font-weight: bold;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 14px 20px;
       font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    #anonForm button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 40px;
+      border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 6px 15px rgba(255, 20, 147, 0.3);
-      transition: transform 0.2s ease;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
     }
 
-    .anon-form button:hover {
-      transform: scale(1.05);
+    #anonForm button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
     }
 
+    /* Tlačítko obálky v pravém horním rohu */
+    .scroll-to-form {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 28px;
+      background: #ff1493;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-decoration: none;
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .scroll-to-form:hover {
+      background: #ff69b4;
+      transform: scale(1.1);
+    }
+
+    /* Responzivní */
     @media (max-width: 600px) {
       .profile {
         margin: 30px 10px;
@@ -307,6 +339,25 @@
         font-size: 16px;
         padding: 12px 24px;
       }
+
+      #anonForm {
+        margin: 40px 15px 80px;
+        padding: 20px 15px;
+      }
+
+      #anonForm h2 {
+        font-size: 22px;
+      }
+
+      #anonForm textarea {
+        height: 100px;
+        font-size: 14px;
+      }
+
+      #anonForm button {
+        font-size: 16px;
+        padding: 12px 28px;
+      }
     }
   </style>
 </head>
@@ -330,29 +381,35 @@
       <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
       <p><a href="https://share.icloud.com/photos/0b0BWqGFPkF98fuOJyk4ADv8Q" target="_blank" style="color: white; text-decoration: underline;">📸 Prohlédni si celé album</a></p>
     </div>
-
-    <!-- Anonymní formulář -->
-    <form action="https://formspree.io/f/mvgkpjpo" method="POST" class="anon-form" id="anonForm">
-      <h2 style="color:#ff1493; font-family:'Playfair Display',serif;">📨 Napiš mi anonymní zprávu</h2>
-      <textarea name="message" placeholder="Sem napiš, co máš na srdci..." required></textarea>
-      <button type="submit">Odeslat anonymně</button>
-    </form>
   </div>
 
+  <!-- Anonymní zpráva - formulář -->
+  <form id="anonForm" action="https://formspree.io/f/mvgkpjpo" method="POST">
+    <h2>Napiš mi anonymní zprávu</h2>
+    <textarea name="message" placeholder="Tvoje zpráva..." required></textarea>
+    <button type="submit">Odeslat</button>
+  </form>
+
+  <!-- Hudba na pozadí -->
   <audio id="bg-music" src="rizz song.mp3" loop></audio>
 
+  <!-- Lightbox s videem -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <video id="mainVideo" controls>
       <source src="video.mp4" type="video/mp4" />
     </video>
   </div>
 
+  <!-- Modal interakce -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <h2>Jsi připraven setkat se s Vojtou?</h2>
       <button id="startBtn">Ano, pojďme na to!</button>
     </div>
   </div>
+
+  <!-- Tlačítko obálky v pravém horním rohu -->
+  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">📩</a>
 
   <script>
     const music = document.getElementById('bg-music');
@@ -364,49 +421,37 @@
 
     startBtn.addEventListener('click', () => {
       modalOverlay.style.display = 'none';
-      try {
-        music.play();
-        musicPlaying = true;
-      } catch(e) {}
-      dropEmojis();
+      music.play();
+      musicPlaying = true;
     });
 
     function openLightbox() {
       lightbox.classList.add('active');
-      mainVideo.currentTime = 0;
       mainVideo.play();
-      music.pause();
+      if (!musicPlaying) {
+        music.play();
+        musicPlaying = true;
+      }
     }
 
     function closeLightbox() {
       lightbox.classList.remove('active');
       mainVideo.pause();
-      if (musicPlaying) music.play();
+      mainVideo.currentTime = 0;
     }
 
-    mainVideo.addEventListener('play', () => music.pause());
-    mainVideo.addEventListener('pause', () => {
-      if (musicPlaying) music.play();
-    });
-
     function dropEmojis() {
-      const count = 15;
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < 25; i++) {
         const emoji = document.createElement('div');
-        emoji.className = 'emoji-drop';
         emoji.textContent = '🥵';
-        emoji.style.left = Math.random() * 100 + 'vw';
-        emoji.style.top = '-50px';
-        emoji.style.animationDuration = (1 + Math.random()).toFixed(2) + 's';
+        emoji.classList.add('emoji-drop');
+        emoji.style.left = (Math.random() * 100) + 'vw';
+        emoji.style.animationDelay = (i * 0.1) + 's';
+        emoji.style.fontSize = (16 + Math.random() * 32) + 'px';
         document.body.appendChild(emoji);
         setTimeout(() => emoji.remove(), 1200);
       }
     }
-
-    // Potvrzení odeslání anonymní zprávy
-    document.getElementById('anonForm').addEventListener('submit', function (e) {
-      setTimeout(() => alert('✅ Zpráva byla anonymně odeslána. Díky!'), 300);
-    });
   </script>
 </body>
 </html>
