@@ -1,4 +1,3 @@
-<!-- [HTML KÓD] -->
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -7,7 +6,9 @@
   <title>Vojta Matyáš</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
   <style>
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       padding: 0;
@@ -16,6 +17,7 @@
       color: #333;
       overflow-x: hidden;
     }
+
     body::before {
       content: "";
       position: fixed;
@@ -24,6 +26,7 @@
       opacity: 0.08;
       z-index: -1;
     }
+
     .profile {
       max-width: 700px;
       margin: 80px auto;
@@ -35,20 +38,33 @@
       position: relative;
       z-index: 1;
     }
-    .profile-pic-container { position: relative; display: inline-block; }
+
+    .profile-pic-container {
+      position: relative;
+      display: inline-block;
+    }
+
     img {
-      width: 180px; height: 180px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       object-fit: cover;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       margin-bottom: 20px;
     }
+
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: 32px;
       margin: 10px 0;
     }
-    p { font-size: 18px; line-height: 1.6; margin: 15px 0; }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
     .cta {
       margin-top: 40px;
       background: linear-gradient(135deg, #ff69b4, #ff1493);
@@ -57,8 +73,16 @@
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
-    .cta h2 { margin-top: 0; font-size: 26px; }
-    .cta p { font-size: 18px; }
+
+    .cta h2 {
+      margin-top: 0;
+      font-size: 26px;
+    }
+
+    .cta p {
+      font-size: 18px;
+    }
+
     .cta a.button {
       display: inline-block;
       background: white;
@@ -71,10 +95,12 @@
       font-size: 16px;
       margin-top: 10px;
     }
+
     .cta a.button:hover {
       background: #ffe6f2;
       transform: scale(1.05);
     }
+
     .video-btn {
       padding: 16px 32px;
       font-size: 18px;
@@ -89,12 +115,37 @@
       transition: transform 0.2s ease;
       margin-top: 30px;
     }
-    .video-btn:hover { transform: scale(1.05); }
+
+    .video-btn:hover {
+      transform: scale(1.05);
+    }
+
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
       70% { box-shadow: 0 0 0 20px rgba(255, 105, 180, 0); }
       100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
     }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lightbox video {
+      width: 90%;
+      max-width: 700px;
+      border-radius: 10px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
     .react-btn {
       position: absolute;
       bottom: 0;
@@ -110,44 +161,202 @@
       transition: background 0.3s ease;
       z-index: 1;
     }
-    .react-btn:hover { background: #ff1493; }
 
-    .album-toggle {
+    .react-btn:hover {
+      background: #ff1493;
+    }
+
+    /* Emoji padani */
+    .emoji-drop {
+      position: fixed;
+      font-size: 32px;
+      pointer-events: none;
+      z-index: 999;
+      top: -50px;
+      animation: drop 1s ease-out forwards;
+    }
+
+    @keyframes drop {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1.2) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0.9) rotate(360deg);
+      }
+    }
+
+    /* Modal interakce */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 40px;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .modal h2 {
+      margin: 0 0 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+    }
+
+    .modal button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
+    }
+
+    .modal button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+    }
+
+    /* Anonymní zpráva - formulář */
+    #anonForm {
+      max-width: 600px;
+      margin: 60px auto 100px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    #anonForm h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+      margin-bottom: 20px;
+    }
+
+    #anonForm textarea {
+      width: 100%;
+      height: 120px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    #anonForm button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 40px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
+    }
+
+    #anonForm button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+    }
+
+    /* Tlačítko obálky v pravém horním rohu */
+    .scroll-to-form {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 28px;
       background: #ff1493;
       color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 25px;
-      transition: background 0.3s;
+      padding: 10px 14px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-decoration: none;
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease;
     }
-    .album-toggle:hover { background: #e01384; }
-    .album-gallery {
-      display: none;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 20px 10px;
-      text-align: center;
-    }
-    .album-images img {
-      height: 160px;
-      border-radius: 12px;
-      margin: 8px;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    .album-images img:hover { transform: scale(1.05); }
 
-    /* ... další CSS (modal, formulář, responsivita atd.) zůstává beze změny ... */
+    .scroll-to-form:hover {
+      background: #ff69b4;
+      transform: scale(1.1);
+    }
 
+    /* Responzivní */
     @media (max-width: 600px) {
-      .album-images img {
-        height: 120px;
-        margin: 6px;
+      .profile {
+        margin: 30px 10px;
+        padding: 25px 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .cta h2 {
+        font-size: 22px;
+      }
+
+      .cta p, p {
+        font-size: 16px;
+      }
+
+      .video-btn {
+        font-size: 16px;
+        padding: 12px 24px;
+      }
+
+      .modal {
+        max-width: 90%;
+        padding: 20px 20px;
+      }
+
+      .modal h2 {
+        font-size: 22px;
+      }
+
+      .modal button {
+        font-size: 16px;
+        padding: 12px 24px;
+      }
+
+      #anonForm {
+        margin: 40px 15px 80px;
+        padding: 20px 15px;
+      }
+
+      #anonForm h2 {
+        font-size: 22px;
+      }
+
+      #anonForm textarea {
+        height: 100px;
+        font-size: 14px;
+      }
+
+      #anonForm button {
+        font-size: 16px;
+        padding: 12px 28px;
       }
     }
   </style>
@@ -170,30 +379,61 @@
          Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
       <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
       <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
-      <button onclick="toggleGallery()" class="album-toggle">📷 Zobrazit tajné album</button>
-      <div class="album-gallery" id="gallery">
-        <div class="album-images">
-          <img src="image_2.JPG" alt="">
-          <img src="image_3.JPEG" alt="">
-          <img src="image_4.JPG" alt="">
-          <img src="image_5.JPEG" alt="">
-          <img src="image_8.JPEG" alt="">
-          <img src="image_9.JPG" alt="">
-          <img src="image_11.JPG" alt="">
-          <img src="image_12.JPG" alt="">
-          <img src="image_13.JPG" alt="">
-          <img src="image_14.JPG" alt="">
-          <img src="image_15.JPG" alt="">
-          <img src="image_16.JPG" alt="">
-          <img src="image_17.PNG" alt="">
-          <img src="image_18.jpg" alt="">
-          <img src="image_19.jpg" alt="">
-        </div>
-      </div>
+    <!-- Fotogalerie -->
+<div class="photo-gallery" style="margin-top: 40px;">
+  <h2 style="font-family:'Playfair Display', serif; font-size: 24px;">📷 Galerie momentek</h2>
+  <div class="gallery-row">
+    <img src="image_2.JPG" onclick="openImg(this)" />
+    <img src="image_3.JPEG" onclick="openImg(this)" />
+    <img src="image_4.JPG" onclick="openImg(this)" />
+    <img src="image_5.JPEG" onclick="openImg(this)" />
+    <img src="image_8.JPEG" onclick="openImg(this)" />
+    <img src="image_9.JPG" onclick="openImg(this)" />
+    <img src="image_11.JPG" onclick="openImg(this)" />
+    <img src="image_12.JPG" onclick="openImg(this)" />
+    <img src="image_13.JPG" onclick="openImg(this)" />
+    <img src="image_14.JPG" onclick="openImg(this)" />
+    <img src="image_15.JPG" onclick="openImg(this)" />
+    <img src="image_16.JPG" onclick="openImg(this)" />
+    <img src="image_17.PNG" onclick="openImg(this)" />
+    <img src="image_18.jpg" onclick="openImg(this)" />
+    <img src="image_19.jpg" onclick="openImg(this)" />
+  </div>
+</div>
+
+<!-- Lightbox galerie -->
+<div id="imgLightbox" onclick="this.style.display='none'">
+  <img id="imgInBox" src="" />
+</div>
+  </div>
+
+  <!-- Anonymní zpráva - formulář -->
+  <form id="anonForm" action="https://formspree.io/f/mvgkpjpo" method="POST">
+    <h2>Napiš mi anonymní zprávu</h2>
+    <textarea name="message" placeholder="Tvoje zpráva..." required></textarea>
+    <button type="submit">Odeslat</button>
+  </form>
+
+  <!-- Hudba na pozadí -->
+  <audio id="bg-music" src="rizz song.mp3" loop></audio>
+
+  <!-- Lightbox s videem -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <video id="mainVideo" controls>
+      <source src="video.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Modal interakce -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2>Jsi připraven setkat se s Vojtou?</h2>
+      <button id="startBtn">Ano, pojďme na to!</button>
     </div>
   </div>
 
-  <!-- Ostatní části zůstávají stejné – formulář, lightbox, modal atd. -->
+  <!-- Tlačítko obálky v pravém horním rohu -->
+  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">📩</a>
 
   <script>
     const music = document.getElementById('bg-music');
@@ -235,11 +475,6 @@
         document.body.appendChild(emoji);
         setTimeout(() => emoji.remove(), 1200);
       }
-    }
-
-    function toggleGallery() {
-      const gallery = document.getElementById('gallery');
-      gallery.style.display = gallery.style.display === 'block' ? 'none' : 'block';
     }
   </script>
 </body>
