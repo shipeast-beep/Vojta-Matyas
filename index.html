@@ -16,9 +16,8 @@
     }
     body::before {
       content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
-      filter: blur(8px);
-      opacity: 0.15; z-index: -1;
+      background: url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      opacity: 0.08; z-index: -1;
     }
     .profile {
       max-width: 700px; margin: 80px auto;
@@ -184,11 +183,6 @@
     #anonForm button:hover {
       background: linear-gradient(135deg, #ff69b4, #ff1493);
     }
-    #formMessage {
-      color: green;
-      font-weight: bold;
-      margin-top: 15px;
-    }
     .scroll-to-form {
       position: fixed; top: 20px; right: 20px;
       font-size: 28px;
@@ -240,156 +234,157 @@
       font-size: 48px;
       color: white;
       cursor: pointer;
-      padding: 0 20px;
+      padding: 20px;
       user-select: none;
     }
-    #imgLightbox .prev { left: 20px; }
-    #imgLightbox .next { right: 20px; }
-    #imgLightbox .close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 36px;
-      color: white;
-      cursor: pointer;
-      user-select: none;
-    }
+    #imgLightbox .nav.left { left: 10px; }
+    #imgLightbox .nav.right { right: 10px; }
   </style>
 </head>
 <body>
-  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">💌</a>
 
   <div class="profile">
     <div class="profile-pic-container">
-      <img src="https://avatars.githubusercontent.com/u/29197866?v=4" alt="Vojta Matyáš" />
-      <button class="react-btn" title="Pošli srdce ❤️">❤️</button>
+      <img src="IMG_1396.png" alt="Vojta Matyáš" />
+      <button class="react-btn" onclick="dropEmojis()">🥵</button>
     </div>
     <h1>Vojta Matyáš</h1>
-    <p>Analytik a tvůrce osobních webů. Rád komunikuji a sdílím věci.</p>
+    <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
+    <button class="video-btn" onclick="openLightbox()">🎬 Spustit tajné video</button>
+
     <div class="cta">
-      <h2>Chceš mě poznat? 🎧</h2>
-      <p>Klikni na tlačítko níže a pusť si mojí hudbu.</p>
-      <button class="video-btn" id="playMusicBtn">Poznat Vojtu</button>
+      <h2>🔥 Vojta tě čeká v soukromí...</h2>
+      <p>Navenek andílek, v soukromí ďábel.<br />
+         Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
+      <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
+      <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
     </div>
   </div>
 
-  <div class="gallery-row" id="gallery">
-    <!-- Obrázky budou vloženy JS -->
+  <div class="photo-gallery" style="max-width: 700px; margin: 0 auto 60px;">
+    <h2 style="font-family:'Playfair Display', serif; font-size: 24px;">📷 Galerie momentek</h2>
+    <div class="gallery-row" id="gallery">
+      <img src="image_2.JPG" />
+      <img src="image_3.JPEG" />
+      <img src="image_4.JPG" />
+      <img src="image_5.JPEG" />
+      <img src="image_8.JPEG" />
+      <img src="image_9.JPG" />
+      <img src="image_11.JPG" />
+      <img src="image_12.JPG" />
+      <img src="image_13.JPG" />
+      <img src="image_14.JPG" />
+      <img src="image_15.JPG" />
+      <img src="image_16.JPG" />
+      <img src="image_17.PNG" />
+      <img src="image_18.jpg" />
+      <img src="image_19.jpg" />
+    </div>
   </div>
 
-  <div id="imgLightbox" onclick="if(event.target===this) closeLightbox()">
-    <span class="nav prev" onclick="changeImage(-1)">‹</span>
-    <img src="" alt="Galerie" />
-    <span class="nav next" onclick="changeImage(1)">›</span>
-    <span class="close" onclick="closeLightbox()">×</span>
+  <div id="imgLightbox" onclick="closeImg()">
+    <span class="nav left" onclick="prevImg(event)">&#8592;</span>
+    <img id="imgInBox" src="" />
+    <span class="nav right" onclick="nextImg(event)">&#8594;</span>
   </div>
 
   <form id="anonForm" action="https://formspree.io/f/mvgkpjpo" method="POST">
     <h2>Napiš mi anonymní zprávu</h2>
-    <textarea name="message" required placeholder="Tvá zpráva..."></textarea>
+    <textarea name="message" placeholder="Tvoje zpráva..." required></textarea>
     <button type="submit">Odeslat</button>
-    <div id="formMessage"></div>
   </form>
 
-  <audio id="music" src="https://dl.dropboxusercontent.com/s/7ug30f43w3q1r0y/vojta.mp3" preload="auto"></audio>
+  <audio id="bg-music" src="rizz song.mp3" loop></audio>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <video id="mainVideo" controls>
+      <source src="video.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2>Jsi připraven setkat se s Vojtou?</h2>
+      <button id="startBtn">Ano, pojďme na to!</button>
+    </div>
+  </div>
+
+  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">📩</a>
 
   <script>
-    // Galerie obrázků
-    const galleryImages = [
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1468071174046-657d9d351a40?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1549388604-817d15aa0110?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1525097487452-6278ff080c31?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80"
-    ];
+    const music = document.getElementById('bg-music');
+    const lightbox = document.getElementById('lightbox');
+    const mainVideo = document.getElementById('mainVideo');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const startBtn = document.getElementById('startBtn');
+    let musicPlaying = false;
 
-    const galleryContainer = document.getElementById('gallery');
-    galleryImages.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Galerie obrázek ${i+1}`;
-      img.onclick = () => openLightbox(i);
-      galleryContainer.appendChild(img);
+    startBtn.addEventListener('click', () => {
+      modalOverlay.style.display = 'none';
+      music.play();
+      musicPlaying = true;
     });
 
-    let currentImgIndex = 0;
-    const lightbox = document.getElementById('imgLightbox');
-    const lightboxImg = lightbox.querySelector('img');
-
-    function openLightbox(index) {
-      currentImgIndex = index;
-      lightbox.style.display = 'flex';
-      lightboxImg.src = galleryImages[currentImgIndex];
-    }
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-    }
-    function changeImage(direction) {
-      currentImgIndex += direction;
-      if(currentImgIndex < 0) currentImgIndex = galleryImages.length - 1;
-      if(currentImgIndex >= galleryImages.length) currentImgIndex = 0;
-      lightboxImg.src = galleryImages[currentImgIndex];
-    }
-
-    // Reakce na tlačítko srdce
-    document.querySelector('.react-btn').addEventListener('click', () => {
-      const emoji = document.createElement('div');
-      emoji.textContent = '❤️';
-      emoji.className = 'emoji-drop';
-      emoji.style.left = (Math.random() * window.innerWidth) + 'px';
-      document.body.appendChild(emoji);
-      setTimeout(() => emoji.remove(), 1000);
-    });
-
-    // Hudba po kliknutí na "Poznat Vojtu"
-    const music = document.getElementById('music');
-    const playMusicBtn = document.getElementById('playMusicBtn');
-    playMusicBtn.addEventListener('click', () => {
-      if(music.paused) {
+    function openLightbox() {
+      lightbox.classList.add('active');
+      mainVideo.play();
+      if (!musicPlaying) {
         music.play();
-        playMusicBtn.textContent = 'Pozastavit hudbu';
-      } else {
-        music.pause();
-        playMusicBtn.textContent = 'Poznat Vojtu';
+        musicPlaying = true;
       }
-    });
+    }
 
-    // AJAX odeslání formuláře Formspree
-    const anonForm = document.getElementById('anonForm');
-    const formMessage = document.getElementById('formMessage');
-    anonForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(anonForm);
-      fetch(anonForm.action, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: formData
-      }).then(response => {
-        if(response.ok) {
-          formMessage.style.color = 'green';
-          formMessage.textContent = 'Děkuji, zpráva byla odeslána.';
-          anonForm.reset();
-        } else {
-          response.json().then(data => {
-            if(data.errors) {
-              formMessage.style.color = 'red';
-              formMessage.textContent = data.errors.map(e => e.message).join(', ');
-            } else {
-              formMessage.style.color = 'red';
-              formMessage.textContent = 'Nastala chyba při odesílání zprávy.';
-            }
-          });
-        }
-      }).catch(() => {
-        formMessage.style.color = 'red';
-        formMessage.textContent = 'Chyba připojení, zkuste to později.';
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      mainVideo.pause();
+      mainVideo.currentTime = 0;
+    }
+
+    function dropEmojis() {
+      for (let i = 0; i < 25; i++) {
+        const emoji = document.createElement('div');
+        emoji.textContent = '🥵';
+        emoji.classList.add('emoji-drop');
+        emoji.style.left = (Math.random() * 100) + 'vw';
+        emoji.style.animationDelay = (i * 0.1) + 's';
+        emoji.style.fontSize = (16 + Math.random() * 32) + 'px';
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 1200);
+      }
+    }
+
+    const galleryImgs = [...document.querySelectorAll('#gallery img')];
+    let currentIndex = 0;
+
+    galleryImgs.forEach((img, i) => {
+      img.addEventListener('click', (e) => {
+        currentIndex = i;
+        openImg();
+        e.stopPropagation();
       });
     });
+
+    function openImg() {
+      const imgBox = document.getElementById('imgInBox');
+      imgBox.src = galleryImgs[currentIndex].src;
+      document.getElementById('imgLightbox').style.display = 'flex';
+    }
+
+    function closeImg() {
+      document.getElementById('imgLightbox').style.display = 'none';
+    }
+
+    function nextImg(e) {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % galleryImgs.length;
+      openImg();
+    }
+
+    function prevImg(e) {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
+      openImg();
+    }
   </script>
 </body>
 </html>
