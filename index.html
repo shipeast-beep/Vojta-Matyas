@@ -1,179 +1,395 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vojta Matyáš</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
   <style>
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
+      margin: 0; padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffeefc, #fdf4f8);
+      color: #333;
       overflow-x: hidden;
     }
-
-    .container {
-      max-width: 600px;
-      margin: 30px auto;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 12px;
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      filter: blur(8px);
+      opacity: 0.15; z-index: -1;
     }
-
-    img.profile {
-      width: 180px;
-      height: 180px;
+    .profile {
+      max-width: 700px; margin: 80px auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      position: relative; z-index: 1;
+    }
+    .profile-pic-container { position: relative; display: inline-block; }
+    img {
+      width: 180px; height: 180px;
       border-radius: 50%;
       object-fit: cover;
-      display: block;
-      margin: 0 auto 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
     }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
+    h1 { font-family: 'Playfair Display', serif; font-size: 32px; margin: 10px 0; }
+    p { font-size: 18px; line-height: 1.6; margin: 15px 0; }
+    .cta {
+      margin-top: 40px;
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      color: white;
+      padding: 35px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
-
-    .emoji-btn {
-      display: block;
-      margin: 10px auto;
-      font-size: 24px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
-    .emoji {
-      position: fixed;
-      top: -50px;
-      font-size: 32px;
-      animation: fall 2s linear forwards;
-      left: calc(50% - 16px);
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-
-    .unlock {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .album {
-      display: none;
-      overflow-x: auto;
-      white-space: nowrap;
-      margin-top: 20px;
-    }
-
-    .album img {
-      width: 150px;
-      height: auto;
-      border-radius: 10px;
-      margin-right: 10px;
+    .cta h2 { margin-top: 0; font-size: 26px; }
+    .cta p { font-size: 18px; }
+    .cta a.button {
       display: inline-block;
+      background: white;
+      color: #ff1493;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      transition: background 0.3s ease, transform 0.2s;
+      font-size: 16px;
+      margin-top: 10px;
     }
-
-    .video {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    video {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    input[type="password"] {
-      padding: 8px;
-      width: 80%;
-      margin: 10px 0;
-      border-radius: 6px;
+    .cta a.button:hover { background: #ffe6f2; transform: scale(1.05); }
+    .video-btn {
+      padding: 16px 32px;
+      font-size: 18px;
       border: none;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #ff1493;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
       color: white;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+      animation: pulse 2s infinite;
+      transition: transform 0.2s ease;
+      margin-top: 30px;
+    }
+    .video-btn:hover { transform: scale(1.05); }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(255, 105, 180, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+    }
+    .react-btn {
+      position: absolute; bottom: 0; right: -10px;
+      transform: translateY(50%);
+      background: #ff69b4;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 8px 10px;
+      transition: background 0.3s ease;
+      z-index: 1;
+    }
+    .react-btn:hover { background: #ff1493; }
+    .emoji-drop {
+      position: fixed;
+      font-size: 32px;
+      pointer-events: none;
+      z-index: 999;
+      top: -50px;
+      animation: drop 1s ease-out forwards;
+    }
+    @keyframes drop {
+      0% { opacity: 1; transform: translateY(0) scale(1.2) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) scale(0.9) rotate(360deg); }
+    }
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 2000;
+    }
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 40px;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .modal h2 {
+      margin: 0 0 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+    }
+    .modal button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
+    }
+    .modal button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+    }
+    #anonForm {
+      max-width: 600px; margin: 60px auto 100px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      position: relative; z-index: 1;
+    }
+    #anonForm h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #ff1493;
+      margin-bottom: 20px;
+    }
+    #anonForm textarea {
+      width: 100%; height: 120px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    #anonForm button {
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 14px 40px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+      transition: background 0.3s ease;
+    }
+    #anonForm button:hover {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+    }
+    #formMessage {
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    .scroll-to-form {
+      position: fixed; top: 20px; right: 20px;
+      font-size: 28px;
+      background: #ff1493;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-decoration: none;
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+    .scroll-to-form:hover { background: #ff69b4; transform: scale(1.1); }
+
+    /* Galerie */
+    .gallery-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px 0;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery-row img {
+      height: 160px;
+      border-radius: 10px;
+      cursor: pointer;
+      object-fit: cover;
+      scroll-snap-align: start;
+      transition: transform 0.2s ease;
+    }
+    .gallery-row img:hover { transform: scale(1.05); }
+    #imgLightbox {
+      display: none;
+      position: fixed; z-index: 9999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center; align-items: center;
+    }
+    #imgLightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+    }
+    #imgLightbox .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 48px;
+      color: white;
+      cursor: pointer;
+      padding: 0 20px;
+      user-select: none;
+    }
+    #imgLightbox .prev { left: 20px; }
+    #imgLightbox .next { right: 20px; }
+    #imgLightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 36px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="IMG_1396.png" alt="Vojta Matyáš" class="profile">
+  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">💌</a>
+
+  <div class="profile">
+    <div class="profile-pic-container">
+      <img src="https://avatars.githubusercontent.com/u/29197866?v=4" alt="Vojta Matyáš" />
+      <button class="react-btn" title="Pošli srdce ❤️">❤️</button>
+    </div>
     <h1>Vojta Matyáš</h1>
-    <button class="emoji-btn" onclick="dropEmoji()">🥵</button>
-
-    <div class="video">
-      <video controls id="video">
-        <source src="video.mp4" type="video/mp4">
-        Tvůj prohlížeč nepodporuje video.
-      </video>
-    </div>
-
-    <div class="unlock">
-      <p>Pro přístup do tajného alba zadej kód:</p>
-      <input type="password" id="codeInput" placeholder="Zadej kód...">
-      <br>
-      <button onclick="checkCode()">Zobrazit album</button>
-    </div>
-
-    <div class="album" id="album">
-      <img src="765C02D2-2664-4874-885B-D8BB5830FD71.jpeg" alt="neck1">
-      <!-- Další fotky můžeš přidat sem stejným způsobem -->
+    <p>Analytik a tvůrce osobních webů. Rád komunikuji a sdílím věci.</p>
+    <div class="cta">
+      <h2>Chceš mě poznat? 🎧</h2>
+      <p>Klikni na tlačítko níže a pusť si mojí hudbu.</p>
+      <button class="video-btn" id="playMusicBtn">Poznat Vojtu</button>
     </div>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="rizz song.mp3" type="audio/mpeg">
-  </audio>
+  <div class="gallery-row" id="gallery">
+    <!-- Obrázky budou vloženy JS -->
+  </div>
+
+  <div id="imgLightbox" onclick="if(event.target===this) closeLightbox()">
+    <span class="nav prev" onclick="changeImage(-1)">‹</span>
+    <img src="" alt="Galerie" />
+    <span class="nav next" onclick="changeImage(1)">›</span>
+    <span class="close" onclick="closeLightbox()">×</span>
+  </div>
+
+  <form id="anonForm" action="https://formspree.io/f/mvgkpjpo" method="POST">
+    <h2>Napiš mi anonymní zprávu</h2>
+    <textarea name="message" required placeholder="Tvá zpráva..."></textarea>
+    <button type="submit">Odeslat</button>
+    <div id="formMessage"></div>
+  </form>
+
+  <audio id="music" src="https://dl.dropboxusercontent.com/s/7ug30f43w3q1r0y/vojta.mp3" preload="auto"></audio>
 
   <script>
-    const music = document.getElementById('bgMusic');
-    const video = document.getElementById('video');
+    // Galerie obrázků
+    const galleryImages = [
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1468071174046-657d9d351a40?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549388604-817d15aa0110?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1525097487452-6278ff080c31?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80"
+    ];
 
-    // Nutná interakce pro přehrání hudby
-    document.addEventListener('click', () => {
-      if (music.paused) {
-        music.play();
-      }
-    }, { once: true });
-
-    video.addEventListener('play', () => {
-      music.pause();
+    const galleryContainer = document.getElementById('gallery');
+    galleryImages.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Galerie obrázek ${i+1}`;
+      img.onclick = () => openLightbox(i);
+      galleryContainer.appendChild(img);
     });
 
-    video.addEventListener('pause', () => {
-      music.play();
-    });
+    let currentImgIndex = 0;
+    const lightbox = document.getElementById('imgLightbox');
+    const lightboxImg = lightbox.querySelector('img');
 
-    function checkCode() {
-      const input = document.getElementById('codeInput').value;
-      if (input === '0000') {
-        document.getElementById('album').style.display = 'block';
-      } else {
-        alert('Nesprávný kód.');
-      }
+    function openLightbox(index) {
+      currentImgIndex = index;
+      lightbox.style.display = 'flex';
+      lightboxImg.src = galleryImages[currentImgIndex];
+    }
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+    }
+    function changeImage(direction) {
+      currentImgIndex += direction;
+      if(currentImgIndex < 0) currentImgIndex = galleryImages.length - 1;
+      if(currentImgIndex >= galleryImages.length) currentImgIndex = 0;
+      lightboxImg.src = galleryImages[currentImgIndex];
     }
 
-    function dropEmoji() {
+    // Reakce na tlačítko srdce
+    document.querySelector('.react-btn').addEventListener('click', () => {
       const emoji = document.createElement('div');
-      emoji.className = 'emoji';
-      emoji.textContent = '🥵';
+      emoji.textContent = '❤️';
+      emoji.className = 'emoji-drop';
+      emoji.style.left = (Math.random() * window.innerWidth) + 'px';
       document.body.appendChild(emoji);
-      setTimeout(() => emoji.remove(), 2000);
-    }
+      setTimeout(() => emoji.remove(), 1000);
+    });
+
+    // Hudba po kliknutí na "Poznat Vojtu"
+    const music = document.getElementById('music');
+    const playMusicBtn = document.getElementById('playMusicBtn');
+    playMusicBtn.addEventListener('click', () => {
+      if(music.paused) {
+        music.play();
+        playMusicBtn.textContent = 'Pozastavit hudbu';
+      } else {
+        music.pause();
+        playMusicBtn.textContent = 'Poznat Vojtu';
+      }
+    });
+
+    // AJAX odeslání formuláře Formspree
+    const anonForm = document.getElementById('anonForm');
+    const formMessage = document.getElementById('formMessage');
+    anonForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(anonForm);
+      fetch(anonForm.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      }).then(response => {
+        if(response.ok) {
+          formMessage.style.color = 'green';
+          formMessage.textContent = 'Děkuji, zpráva byla odeslána.';
+          anonForm.reset();
+        } else {
+          response.json().then(data => {
+            if(data.errors) {
+              formMessage.style.color = 'red';
+              formMessage.textContent = data.errors.map(e => e.message).join(', ');
+            } else {
+              formMessage.style.color = 'red';
+              formMessage.textContent = 'Nastala chyba při odesílání zprávy.';
+            }
+          });
+        }
+      }).catch(() => {
+        formMessage.style.color = 'red';
+        formMessage.textContent = 'Chyba připojení, zkuste to později.';
+      });
+    });
   </script>
 </body>
 </html>
