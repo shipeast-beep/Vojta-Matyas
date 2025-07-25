@@ -350,9 +350,26 @@
       mainVideo.pause();
       if (musicPlaying) music.play();
     }
-
     mainVideo.addEventListener('play', () => music.pause());
     mainVideo.addEventListener('pause', () => {
+      if (musicPlaying) music.play();
+    });
+    
+    function openSecondLightbox() {
+      secondLightbox.classList.add('active');
+      secondVideo.currentTime = 0;
+      secondVideo.play();
+      music.pause();
+    }
+
+    function closeSecondLightbox() {
+      secondLightbox.classList.remove('active');
+      secondVideo.pause();
+      if (musicPlaying) music.play();
+    }
+
+    secondVideo.addEventListener('play', () => music.pause());
+    secondVideo.addEventListener('pause', () => {
       if (musicPlaying) music.play();
     });
 
