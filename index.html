@@ -1,389 +1,178 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>Vojta Matyáš</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    html { scroll-behavior: smooth; }
     body {
-      margin: 0; padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #ffeefc, #fdf4f8);
-      color: #333;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
       overflow-x: hidden;
     }
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
-      opacity: 0.08; z-index: -1;
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 12px;
     }
-    .profile {
-      max-width: 700px; margin: 80px auto;
-      background: rgba(255,255,255,0.95);
-      border-radius: 20px;
-      padding: 40px 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      text-align: center;
-      position: relative; z-index: 1;
-    }
-    .profile-pic-container { position: relative; display: inline-block; }
-    img {
-      width: 180px; height: 180px;
+
+    img.profile {
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
+      display: block;
+      margin: 0 auto 15px;
     }
-    h1 { font-family: 'Playfair Display', serif; font-size: 32px; margin: 10px 0; }
-    p { font-size: 18px; line-height: 1.6; margin: 15px 0; }
-    .cta {
-      margin-top: 40px;
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-      color: white;
-      padding: 35px 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
     }
-    .cta h2 { margin-top: 0; font-size: 26px; }
-    .cta p { font-size: 18px; }
-    .cta a.button {
-      display: inline-block;
-      background: white;
-      color: #ff1493;
-      font-weight: bold;
-      text-decoration: none;
-      padding: 14px 28px;
-      border-radius: 30px;
-      transition: background 0.3s ease, transform 0.2s;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-    .cta a.button:hover { background: #ffe6f2; transform: scale(1.05); }
-    .video-btn {
-      padding: 16px 32px;
-      font-size: 18px;
+
+    .emoji-btn {
+      display: block;
+      margin: 10px auto;
+      font-size: 24px;
+      background: transparent;
       border: none;
-      border-radius: 50px;
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
-      color: white;
-      font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
-      animation: pulse 2s infinite;
-      transition: transform 0.2s ease;
+    }
+
+    .emoji {
+      position: fixed;
+      top: -50px;
+      font-size: 32px;
+      animation: fall 2s linear forwards;
+      left: calc(50% - 16px);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .unlock {
+      text-align: center;
       margin-top: 30px;
     }
-    .video-btn:hover { transform: scale(1.05); }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
-      70% { box-shadow: 0 0 0 20px rgba(255, 105, 180, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+
+    .album {
+      display: none;
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-top: 20px;
     }
-    .react-btn {
-      position: absolute; bottom: 0; right: -10px;
-      transform: translateY(50%);
-      background: #ff69b4;
-      border: none;
-      border-radius: 50%;
-      font-size: 24px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      padding: 8px 10px;
-      transition: background 0.3s ease;
-      z-index: 1;
+
+    .album img {
+      width: 150px;
+      height: auto;
+      border-radius: 10px;
+      margin-right: 10px;
+      display: inline-block;
     }
-    .react-btn:hover { background: #ff1493; }
-    .emoji-drop {
-      position: fixed;
-      font-size: 32px;
-      pointer-events: none;
-      z-index: 999;
-      top: -50px;
-      animation: drop 1s ease-out forwards;
-    }
-    @keyframes drop {
-      0% { opacity: 1; transform: translateY(0) scale(1.2) rotate(0deg); }
-      100% { opacity: 0; transform: translateY(100vh) scale(0.9) rotate(360deg); }
-    }
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex; justify-content: center; align-items: center;
-      z-index: 2000;
-    }
-    .modal {
-      background: white;
-      border-radius: 16px;
-      padding: 30px 40px;
-      max-width: 350px;
+
+    .video {
+      margin-top: 30px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .modal h2 {
-      margin: 0 0 20px;
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: #ff1493;
+
+    video {
+      width: 100%;
+      border-radius: 10px;
     }
-    .modal button {
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
+
+    input[type="password"] {
+      padding: 8px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 6px;
       border: none;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      padding: 14px 32px;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
-      transition: background 0.3s ease;
     }
-    .modal button:hover {
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-    }
-    #anonForm {
-      max-width: 600px; margin: 60px auto 100px;
-      background: rgba(255,255,255,0.95);
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      text-align: center;
-      position: relative; z-index: 1;
-    }
-    #anonForm h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: #ff1493;
-      margin-bottom: 20px;
-    }
-    #anonForm textarea {
-      width: 100%; height: 120px;
-      resize: vertical;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      padding: 14px 20px;
-      font-size: 16px;
-      font-family: 'Poppins', sans-serif;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-    #anonForm button {
-      background: linear-gradient(135deg, #ff1493, #ff69b4);
+
+    button {
+      padding: 10px 20px;
       border: none;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      padding: 14px 40px;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
-      transition: background 0.3s ease;
-    }
-    #anonForm button:hover {
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-    }
-    .scroll-to-form {
-      position: fixed; top: 20px; right: 20px;
-      font-size: 28px;
+      border-radius: 8px;
       background: #ff1493;
       color: white;
-      padding: 10px 14px;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      text-decoration: none;
-      z-index: 3000;
-      transition: transform 0.2s ease, background 0.3s ease;
-    }
-    .scroll-to-form:hover { background: #ff69b4; transform: scale(1.1); }
-
-    /* Galerie */
-    .gallery-row {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 10px 0;
-      scroll-snap-type: x mandatory;
-    }
-    .gallery-row img {
-      height: 160px;
-      border-radius: 10px;
+      font-weight: bold;
       cursor: pointer;
-      object-fit: cover;
-      scroll-snap-align: start;
-      transition: transform 0.2s ease;
     }
-    .gallery-row img:hover { transform: scale(1.05); }
-    #imgLightbox {
-      display: none;
-      position: fixed; z-index: 9999;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      justify-content: center; align-items: center;
-    }
-    #imgLightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 12px;
-    }
-    #imgLightbox .nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 48px;
-      color: white;
-      cursor: pointer;
-      padding: 20px;
-      user-select: none;
-    }
-    #imgLightbox .nav.left { left: 10px; }
-    #imgLightbox .nav.right { right: 10px; }
   </style>
 </head>
 <body>
-
-  <div class="profile">
-    <div class="profile-pic-container">
-      <img src="IMG_1396.png" alt="Vojta Matyáš" />
-      <button class="react-btn" onclick="dropEmojis()">🥵</button>
-    </div>
+  <div class="container">
+    <img src="IMG_1396.png" alt="Vojta Matyáš" class="profile">
     <h1>Vojta Matyáš</h1>
-    <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
-    <button class="video-btn" onclick="openLightbox()">🎬 Spustit tajné video</button>
+    <button class="emoji-btn" onclick="dropEmoji()">🥵</button>
 
-    <div class="cta">
-      <h2>🔥 Vojta tě čeká v soukromí...</h2>
-      <p>Navenek andílek, v soukromí ďábel.<br />
-         Odemkni si přístup a zjisti, co se skrývá za tím nevinným pohledem.</p>
-      <p><em>💋 Neptej se, co ti ukážu. Přihlaš se a uvidíš sám…</em></p>
-      <a class="button" href="https://www.instagram.com/vojteeh_?igsh=MW5veDJnM292dmU0cQ==">Připoj se k mému klubu</a>
+    <div class="video">
+      <video controls id="video">
+        <source src="video.mp4" type="video/mp4">
+        Tvůj prohlížeč nepodporuje video.
+      </video>
+    </div>
+
+    <div class="unlock">
+      <p>Pro přístup do tajného alba zadej kód:</p>
+      <input type="password" id="codeInput" placeholder="Zadej kód...">
+      <br>
+      <button onclick="checkCode()">Zobrazit album</button>
+    </div>
+
+    <div class="album" id="album">
+      <img src="765C02D2-2664-4874-885B-D8BB5830FD71.jpeg" alt="neck1">
+      <!-- Další fotky můžeš přidat sem stejným způsobem -->
     </div>
   </div>
 
-  <div class="photo-gallery" style="max-width: 700px; margin: 0 auto 60px;">
-    <h2 style="font-family:'Playfair Display', serif; font-size: 24px;">📷 Galerie momentek</h2>
-    <div class="gallery-row" id="gallery">
-      <img src="image_2.JPG" />
-      <img src="image_3.JPEG" />
-      <img src="image_4.JPG" />
-      <img src="image_5.JPEG" />
-      <img src="image_8.JPEG" />
-      <img src="image_9.JPG" />
-      <img src="image_11.JPG" />
-      <img src="image_12.JPG" />
-      <img src="image_13.JPG" />
-      <img src="image_14.JPG" />
-      <img src="image_15.JPG" />
-      <img src="image_16.JPG" />
-      <img src="image_17.PNG" />
-      <img src="image_18.jpg" />
-      <img src="image_19.jpg" />
-    </div>
-  </div>
-
-  <div id="imgLightbox" onclick="closeImg()">
-    <span class="nav left" onclick="prevImg(event)">&#8592;</span>
-    <img id="imgInBox" src="" />
-    <span class="nav right" onclick="nextImg(event)">&#8594;</span>
-  </div>
-
-  <form id="anonForm" action="https://formspree.io/f/mvgkpjpo" method="POST">
-    <h2>Napiš mi anonymní zprávu</h2>
-    <textarea name="message" placeholder="Tvoje zpráva..." required></textarea>
-    <button type="submit">Odeslat</button>
-  </form>
-
-  <audio id="bg-music" src="rizz song.mp3" loop></audio>
-
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <video id="mainVideo" controls>
-      <source src="video.mp4" type="video/mp4" />
-    </video>
-  </div>
-
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <h2>Jsi připraven setkat se s Vojtou?</h2>
-      <button id="startBtn">Ano, pojďme na to!</button>
-    </div>
-  </div>
-
-  <a href="#anonForm" class="scroll-to-form" title="Napsat anonymní zprávu">📩</a>
+  <audio id="bgMusic" loop>
+    <source src="rizz song.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    const music = document.getElementById('bg-music');
-    const lightbox = document.getElementById('lightbox');
-    const mainVideo = document.getElementById('mainVideo');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const startBtn = document.getElementById('startBtn');
-    let musicPlaying = false;
+    const music = document.getElementById('bgMusic');
+    const video = document.getElementById('video');
 
-    startBtn.addEventListener('click', () => {
-      modalOverlay.style.display = 'none';
-      music.play();
-      musicPlaying = true;
-    });
-
-    function openLightbox() {
-      lightbox.classList.add('active');
-      mainVideo.play();
-      if (!musicPlaying) {
+    // Nutná interakce pro přehrání hudby
+    document.addEventListener('click', () => {
+      if (music.paused) {
         music.play();
-        musicPlaying = true;
       }
-    }
+    }, { once: true });
 
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      mainVideo.pause();
-      mainVideo.currentTime = 0;
-    }
-
-    function dropEmojis() {
-      for (let i = 0; i < 25; i++) {
-        const emoji = document.createElement('div');
-        emoji.textContent = '🥵';
-        emoji.classList.add('emoji-drop');
-        emoji.style.left = (Math.random() * 100) + 'vw';
-        emoji.style.animationDelay = (i * 0.1) + 's';
-        emoji.style.fontSize = (16 + Math.random() * 32) + 'px';
-        document.body.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 1200);
-      }
-    }
-
-    const galleryImgs = [...document.querySelectorAll('#gallery img')];
-    let currentIndex = 0;
-
-    galleryImgs.forEach((img, i) => {
-      img.addEventListener('click', (e) => {
-        currentIndex = i;
-        openImg();
-        e.stopPropagation();
-      });
+    video.addEventListener('play', () => {
+      music.pause();
     });
 
-    function openImg() {
-      const imgBox = document.getElementById('imgInBox');
-      imgBox.src = galleryImgs[currentIndex].src;
-      document.getElementById('imgLightbox').style.display = 'flex';
+    video.addEventListener('pause', () => {
+      music.play();
+    });
+
+    function checkCode() {
+      const input = document.getElementById('codeInput').value;
+      if (input === '0000') {
+        document.getElementById('album').style.display = 'block';
+      } else {
+        alert('Nesprávný kód.');
+      }
     }
 
-    function closeImg() {
-      document.getElementById('imgLightbox').style.display = 'none';
-    }
-
-    function nextImg(e) {
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % galleryImgs.length;
-      openImg();
-    }
-
-    function prevImg(e) {
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
-      openImg();
+    function dropEmoji() {
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji';
+      emoji.textContent = '🥵';
+      document.body.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 2000);
     }
   </script>
 </body>
