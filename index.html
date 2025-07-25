@@ -279,6 +279,7 @@
     <p>Romantická duše s vášní pro večerní procházky, dobré víno a hluboké rozhovory. Připoj se a poznej mě blíž…</p>
 
     <button class="video-btn" onclick="openLightbox()">🎬 Spustit tajné video</button>
+    <button class="video-btn" onclick="openSecondLightbox()">🎥 Druhé video</button>
 
     <div class="cta">
       <h2>🔥 Vojta tě čeká v soukromí...</h2>
@@ -299,6 +300,12 @@
     <video id="mainVideo" controls>
       <source src="video.mp4" type="video/mp4" />
     </video>
+  <div class="lightbox" id="secondLightbox" onclick="closeSecondLightbox()">
+  <video id="secondVideo" controls>
+    <source src="video.MOV" type="video/quicktime" />
+    Váš prohlížeč nepodporuje přehrávání videí ve formátu .MOV.
+  </video>
+</div>
   </div>
 
   <!-- Modal interakce -->
