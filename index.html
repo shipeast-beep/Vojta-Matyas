@@ -295,18 +295,20 @@
   <!-- Hudba na pozadí -->
   <audio id="bg-music" src="rizz song.mp3" loop></audio>
 
-  <!-- Lightbox s videem -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <video id="mainVideo" controls>
-      <source src="video.mp4" type="video/mp4" />
-    </video>
-  <div class="lightbox" id="secondLightbox" onclick="closeSecondLightbox()">
-    <video id="secondVideo" controls>
+<!-- Lightbox s videem 1 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <video id="mainVideo" controls>
+    <source src="video.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<!-- Lightbox s videem 2 -->
+<div class="lightbox" id="secondLightbox" onclick="closeSecondLightbox()">
+  <video id="secondVideo" controls>
     <source src="video.MOV" type="video/quicktime" />
     Váš prohlížeč nepodporuje přehrávání videí ve formátu .MOV.
-    </video>
-  </div>
-  </div>
+  </video>
+</div>
 
   <!-- Modal interakce -->
   <div class="modal-overlay" id="modalOverlay">
